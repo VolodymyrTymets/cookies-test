@@ -5,6 +5,12 @@ const RCTNetworking = require('RCTNetworking');
 const DOMAIN = 'http://localhost:3002';
 const api = url => `${DOMAIN}${url}`;
 
+const cociesConf = {
+  credentials: 'same-origin',
+  httpOnly: true,
+  secure: true
+};
+
 export default class App extends React.Component {
   constructor() {
     super();
@@ -15,21 +21,21 @@ export default class App extends React.Component {
     }
   }
   componentDidMount() {
-    fetch(api('/data'), {  credentials: 'same-origin' })
+    fetch(api('/data'), cociesConf)
       .then(response => response.json())
       .then(({ counter, error }) =>
         this.setState({ counter, error })
       ).catch((error) => this.setState({ error: error }));
   }
   onGetFromServer = () => {
-    fetch(api('/data'), { credentials: 'same-origin' })
+    fetch(api('/data'), cociesConf)
       .then(response => response.json())
       .then(({ counter, error }) => {
         this.setState({ counter, error })
       }).catch((error) => this.setState({ error: error }));
   }
   onLogin = () => {
-    fetch(api('/login'), { credentials: "same-origin" })
+    fetch(api('/login'), cociesConf)
       .then(response => response.json())
       .then(({ token, error }) => {
         this.setState({ token, error: '' })
