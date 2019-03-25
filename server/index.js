@@ -31,7 +31,7 @@ app.get('/login', function (req, res) {
 app.get('*', function (req, res) {
   log(req.path);
   const cookies = new Cookies(req, res, { keys: keys });
-  const token = cookies.get('token', { signed: true });
+  const token = cookies.get('token', { signed: true, httpOnly: true, secure: true });
   log(`token -> ${token}`);
   return token
     ? res.json({ counter: getRandomInt(10) })
