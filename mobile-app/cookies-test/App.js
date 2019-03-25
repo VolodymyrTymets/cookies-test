@@ -5,10 +5,19 @@ const RCTNetworking = require('RCTNetworking');
 const DOMAIN = 'http://localhost:3002';
 const api = url => `${DOMAIN}${url}`;
 
-const cociesConf = {
-  credentials: 'same-origin',
+const headers = {
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+  'Access-Control-Allow-Credentials': true,
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers':
+    'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, last-read-activity-timestamp',
+};
+
+const cookiesConf = {
+  credentials: 'include',
   httpOnly: true,
-  secure: true
+  secure: true,
+  headers,
 };
 
 export default class App extends React.Component {
@@ -21,21 +30,21 @@ export default class App extends React.Component {
     }
   }
   componentDidMount() {
-    fetch(api('/data'), cociesConf)
+    fetch(api('/data'), cookiesConf)
       .then(response => response.json())
       .then(({ counter, error }) =>
         this.setState({ counter, error })
       ).catch((error) => this.setState({ error: error }));
   }
   onGetFromServer = () => {
-    fetch(api('/data'), cociesConf)
+    fetch(api('/data'), cookiesConf)
       .then(response => response.json())
       .then(({ counter, error }) => {
         this.setState({ counter, error })
       }).catch((error) => this.setState({ error: error }));
   }
   onLogin = () => {
-    fetch(api('/login'), cociesConf)
+    fetch(api('/login'), cookiesConf)
       .then(response => response.json())
       .then(({ token, error }) => {
         this.setState({ token, error: '' })
